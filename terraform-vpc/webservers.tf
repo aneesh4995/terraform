@@ -42,16 +42,38 @@ resource "aws_instance" "webserver" {
       "sudo apt-get update",
       "sudo apt-get install -y nginx",
     ]
+    connection {
+      host        = coalesce(self.public_ip, self.private_ip)
+      agent       = true
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file(pathexpand("~/.ssh/id_rsa"))
+  }
   }
 
   provisioner "file" {
     source      = "success.html"
     destination = "/tmp/index.html"
+    connection {
+      host        = coalesce(self.public_ip, self.private_ip)
+      agent       = true
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file(pathexpand("~/.ssh/id_rsa"))
+  }
   }
   
   provisioner "remote-exec" {
     inline = [
       "sudo mv /tmp/index.html /usr/share/nginx/html/index.html"
     ]
+    connection {
+      host        = coalesce(self.public_ip, self.private_ip)
+      agent       = true
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file(pathexpand("~/.ssh/id_rsa"))
+  }
+
   }
 }
