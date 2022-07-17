@@ -1,0 +1,16 @@
+Your assignment is to use Terraform to automate the provisioning of AWS networking components, including subnets, security groups and a load balancer. To start you off, this directory contains a skeleton project, with enough configuration to allow you to work with your AWS account as well as definitions for the EC2 instances that will function as web servers. For the sake of this exercise, you should primarily concern yourself with the network setup. Details of the rest of the project contents can be found below.
+
+Project Contents
+* locals.tf: Contains a set of local variables that you will need to set for the web servers to be provisioned correctly. Be sure these are set before running `terraform apply` for the first time.
+* webservers.tf: Defines EC2 instances for serving web traffic and their security group. These instances should get attached to your Load Balancer.
+* bastion.tf: Defines an EC2 instance used to bridge SSH traffic web servers on a private subnet.
+* keypair.tf: Generates an SSH keypair for connecting to web servers to configure them.
+* ami.tf: Performs a lookup for the AMI to be used by EC2 instances.
+* aws-provider.tf: Defines the AWS provider.
+* main.tf: Feel free to drop your network configuration in this file or any others.
+* outputs.tf: Provides output variables to show information about EC2 instances.
+Acceptance Criteria:
+1. Requests to the public IP of the load balacer returns responses from the web servers you have provisioned.
+2. EC2 instances should live in private subnets unless stated otherwise by your interviewer.
+3. Running the command `terraform destroy` cleanly tears down all relevant infrasturcture.
+4. Running the command `terraform apply` provisions all infrastructure from a clean state, and results the create load balancer returning a valid HTTP response from the web servers.
